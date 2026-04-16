@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXACORP — TOMORROW BELONGS TO US</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --neon-cyan: #00f5ff;
+    --neon-pink: #ff006e;
+    --neon-yellow: #ffe600;
+    --neon-green: #39ff14;
+    --dark-bg: #020408;
+    --grid-color: rgba(0, 245, 255, 0.06);
+    --panel-bg: rgba(0, 10, 20, 0.85);
+    --border-glow: rgba(0, 245, 255, 0.3);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark-bg);
+    color: #c8d8e8;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* SCANLINES OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* GRID BG */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background: rgba(2, 4, 8, 0.92);
+    border-bottom: 1px solid var(--border-glow);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px var(--neon-cyan), 0 0 40px rgba(0,245,255,0.4);
+    letter-spacing: 0.15em;
+  }
+
+  .nav-logo span { color: var(--neon-pink); text-shadow: 0 0 20px var(--neon-pink); }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(200, 220, 240, 0.6);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s, text-shadow 0.2s;
+  }
+
+  .nav-links a:hover {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px var(--neon-cyan);
+  }
+
+  .nav-cta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dark-bg);
+    background: var(--neon-cyan);
+    border: none;
+    padding: 0.5rem 1.2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: crosshair;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+
+  .nav-cta:hover {
+    background: var(--neon-pink);
+    box-shadow: 0 0 20px var(--neon-pink);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8rem 3rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0, 245, 255, 0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(255, 0, 110, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--neon-pink);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--neon-pink);
+    box-shadow: 0 0 6px var(--neon-pink);
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-shadow: 0 0 60px rgba(0, 245, 255, 0.2);
+    max-width: 10ch;
+    position: relative;
+  }
+
+  .hero-title .accent { color: var(--neon-cyan); text-shadow: 0 0 30px var(--neon-cyan), 0 0 60px rgba(0,245,255,0.3); }
+  .hero-title .accent-pink { color: var(--neon-pink); text-shadow: 0 0 30px var(--neon-pink); }
+
+  .glitch {
+    position: relative;
+    animation: glitch-skew 8s infinite linear alternate-reverse;
+  }
+
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    opacity: 0.7;
+  }
+
+  .glitch::before {
+    color: var(--neon-pink);
+    text-shadow: 0 0 20px var(--neon-pink);
+    animation: glitch-1 4s infinite;
+    left: 2px;
+  }
+
+  .glitch::after {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px var(--neon-cyan);
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    animation: glitch-2 4s infinite;
+    left: -2px;
+  }
+
+  @keyframes glitch-1 {
+    0%, 90%, 100% { clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); transform: none; }
+    92% { clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%); transform: translate(-2px, 0); }
+    94% { clip-path: polygon(0 50%, 100% 50%, 100% 65%, 0 65%); transform: translate(2px, 0); }
+    96% { clip-path: polygon(0 80%, 100% 80%, 100% 95%, 0 95%); transform: translate(-1px, 0); }
+  }
+
+  @keyframes glitch-2 {
+    0%, 90%, 100% { clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); transform: none; }
+    91% { clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%); transform: translate(2px, 0); }
+    93% { clip-path: polygon(0 70%, 100% 70%, 100% 85%, 0 85%); transform: translate(-2px, 0); }
+  }
+
+  @keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(0.4deg); }
+    40% { transform: skew(-0.2deg); }
+    60% { transform: skew(0.1deg); }
+    80% { transform: skew(-0.3deg); }
+    100% { transform: skew(0deg); }
+  }
+
+  .hero-sub {
+    margin-top: 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: rgba(200, 216, 230, 0.65);
+    max-width: 520px;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+  }
+
+  .hero-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dark-bg);
+    background: var(--neon-cyan);
+    border: none;
+    padding: 1rem 2rem;
+    cursor: crosshair;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    position: relative;
+    transition: box-shadow 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 30px var(--neon-cyan), 0 0 60px rgba(0,245,255,0.3);
+  }
+
+  .btn-secondary {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--neon-pink);
+    background: transparent;
+    border: 1px solid var(--neon-pink);
+    padding: 1rem 2rem;
+    cursor: crosshair;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: background 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 0, 110, 0.1);
+    box-shadow: 0 0 20px rgba(255, 0, 110, 0.4);
+  }
+
+  /* TICKER */
+  .ticker-wrap {
+    position: relative;
+    z-index: 2;
+    background: var(--neon-cyan);
+    padding: 0.4rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dark-bg);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* STATS */
+  .stats {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border-glow);
+    border-top: 1px solid var(--border-glow);
+    border-bottom: 1px solid var(--border-glow);
+  }
+
+  .stat-item {
+    background: var(--dark-bg);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .stat-item:hover { background: rgba(0, 245, 255, 0.03); }
+  .stat-item:hover::before { opacity: 1; }
+
+  .stat-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 20px rgba(0,245,255,0.5);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(200,220,240,0.4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 1; }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--neon-pink);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,0,110,0.4), transparent);
+  }
+
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  /* SERVICES GRID */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.1);
+  }
+
+  .service-card {
+    background: var(--panel-bg);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--neon-cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .service-card:hover { background: rgba(0, 245, 255, 0.05); }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.8rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px var(--neon-cyan);
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+
+  .service-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .service-desc {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: rgba(200,220,240,0.55);
+    line-height: 1.65;
+  }
+
+  .service-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--neon-pink);
+    border: 1px solid rgba(255,0,110,0.3);
+    padding: 0.2rem 0.6rem;
+    text-transform: uppercase;
+  }
+
+  /* MANIFESTO */
+  .manifesto {
+    background: linear-gradient(135deg, rgba(0,10,20,0.9) 0%, rgba(0,4,12,0.95) 100%);
+    border-top: 1px solid rgba(0,245,255,0.15);
+    border-bottom: 1px solid rgba(0,245,255,0.15);
+  }
+
+  .manifesto-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .manifesto-text blockquote {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(200,220,240,0.8);
+    border-left: 3px solid var(--neon-cyan);
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .manifesto-text blockquote strong {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px rgba(0,245,255,0.4);
+    font-weight: 700;
+  }
+
+  .manifesto-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .terminal {
+    background: #000;
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 1.5rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 2;
+    position: relative;
+  }
+
+  .terminal::before {
+    content: '● ● ●';
+    display: block;
+    color: rgba(200,220,240,0.2);
+    font-size: 0.6rem;
+    letter-spacing: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,245,255,0.1);
+  }
+
+  .t-green { color: var(--neon-green); }
+  .t-cyan { color: var(--neon-cyan); }
+  .t-pink { color: var(--neon-pink); }
+  .t-yellow { color: var(--neon-yellow); }
+  .t-dim { color: rgba(200,220,240,0.3); }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--neon-cyan);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* DIVISIONS */
+  .divisions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .division-card {
+    border: 1px solid rgba(0,245,255,0.1);
+    padding: 2rem;
+    position: relative;
+    background: rgba(0,8,16,0.6);
+    overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .division-card:hover {
+    border-color: rgba(0,245,255,0.4);
+    box-shadow: 0 0 30px rgba(0,245,255,0.05), inset 0 0 30px rgba(0,245,255,0.02);
+  }
+
+  .division-card .corner {
+    position: absolute;
+    top: 0; right: 0;
+    width: 20px; height: 20px;
+    border-top: 2px solid var(--neon-cyan);
+    border-right: 2px solid var(--neon-cyan);
+  }
+
+  .division-card .corner-bl {
+    top: auto; right: auto;
+    bottom: 0; left: 0;
+    border-top: none; border-right: none;
+    border-bottom: 2px solid rgba(255,0,110,0.4);
+    border-left: 2px solid rgba(255,0,110,0.4);
+  }
+
+  .division-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    color: rgba(0,245,255,0.3);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.8rem;
+  }
+
+  .division-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+
+  .division-desc {
+    font-size: 0.88rem;
+    color: rgba(200,220,240,0.5);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .division-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--neon-green);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .division-status::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--neon-green);
+    box-shadow: 0 0 8px var(--neon-green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+  /* RECRUITMENT */
+  .recruitment {
+    background: #000;
+    border-top: 1px solid var(--neon-pink);
+    border-bottom: 1px solid var(--neon-pink);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .recruitment::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,0,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .recruitment .section-inner { text-align: center; max-width: 700px; }
+
+  .recruitment .section-title { margin-bottom: 1rem; }
+
+  .recruitment p {
+    font-size: 1rem;
+    color: rgba(200,220,240,0.5);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .form-input {
+    flex: 1;
+    background: rgba(0,245,255,0.05);
+    border: 1px solid rgba(0,245,255,0.2);
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    padding: 0.9rem 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .form-input::placeholder { color: rgba(200,220,240,0.2); }
+  .form-input:focus { border-color: var(--neon-cyan); }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(0,245,255,0.1);
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px rgba(0,245,255,0.4);
+    letter-spacing: 0.15em;
+  }
+
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(200,220,240,0.25);
+    letter-spacing: 0.1em;
+    text-align: right;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(200,220,240,0.3);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--neon-cyan); }
+
+  /* HEX DECORATION */
+  .hex-grid {
+    position: absolute;
+    right: -100px; top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .section-inner { padding: 4rem 1.5rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .manifesto-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .divisions-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-copy { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NEXA<span>CORP</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Solutions</a></li>
+    <li><a href="#divisions">Divisions</a></li>
+    <li><a href="#manifesto">Manifesto</a></li>
+    <li><a href="#careers">Careers</a></li>
+  </ul>
+  <button class="nav-cta">Access Portal</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">System Online — 2087 // NXC-Global-HQ</div>
+  <h1 class="hero-title glitch" data-text="YOUR PC BELONGS TO US">
+    YOUR PC<br>
+    <span class="accent">BELONGS</span><br>
+    <span class="accent-pink">TO US.</span>
+  </h1>
+  <p class="hero-sub">NexaCorp Industries: engineering dominance across every sector of human civilization. We don't disrupt markets — we own them. Resistance is a business model we've already acquired.</p>
+  <div class="hero-actions">
+    <a href="#services" class="btn-primary">Enter the System</a>
+    <a href="#manifesto" class="btn-secondary">Read the Manifesto</a>
+  </div>
+
+  <!-- Floating SVG decorations -->
+  <svg class="hex-grid" width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="300,50 520,175 520,425 300,550 80,425 80,175" stroke="#00f5ff" stroke-width="1" fill="none"/>
+    <polygon points="300,100 470,197.5 470,392.5 300,490 130,392.5 130,197.5" stroke="#00f5ff" stroke-width="0.5" fill="none"/>
+    <polygon points="300,150 420,220 420,360 300,430 180,360 180,220" stroke="#00f5ff" stroke-width="1" fill="none"/>
+    <polygon points="300,200 370,242.5 370,327.5 300,370 230,327.5 230,242.5" stroke="#00f5ff" stroke-width="0.5" fill="none"/>
+    <circle cx="300" cy="300" r="3" fill="#00f5ff"/>
+    <line x1="300" y1="50" x2="300" y2="550" stroke="#00f5ff" stroke-width="0.3"/>
+    <line x1="80" y1="175" x2="520" y2="425" stroke="#00f5ff" stroke-width="0.3"/>
+    <line x1="520" y1="175" x2="80" y2="425" stroke="#00f5ff" stroke-width="0.3"/>
+  </svg>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    ▶ NEXACORP Q4 DOMINANCE INDEX: +847% &nbsp;&nbsp;&nbsp; ▶ ACQUISITION: MERIDIAN BIOTECH COMPLETE &nbsp;&nbsp;&nbsp; ▶ NEURAL COMPLIANCE DIVISION: PHASE 3 ACTIVATED &nbsp;&nbsp;&nbsp; ▶ CITIZEN TRACKING NETWORK: 94.7% COVERAGE &nbsp;&nbsp;&nbsp; ▶ GOV CONTRACT NXC-7741: AUTHORIZED &nbsp;&nbsp;&nbsp; ▶ COMPETITOR COUNT: 0 &nbsp;&nbsp;&nbsp; ▶ NEXACORP Q4 DOMINANCE INDEX: +847% &nbsp;&nbsp;&nbsp; ▶ ACQUISITION: MERIDIAN BIOTECH COMPLETE &nbsp;&nbsp;&nbsp; ▶ NEURAL COMPLIANCE DIVISION: PHASE 3 ACTIVATED &nbsp;&nbsp;&nbsp; ▶ CITIZEN TRACKING NETWORK: 94.7% COVERAGE &nbsp;&nbsp;&nbsp; ▶ GOV CONTRACT NXC-7741: AUTHORIZED &nbsp;&nbsp;&nbsp; ▶ COMPETITOR COUNT: 0 &nbsp;&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <span class="stat-number">214B</span>
+    <span class="stat-label">Revenue // 2087</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">847M</span>
+    <span class="stat-label">Lives Managed</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">99.4%</span>
+    <span class="stat-label">Market Control</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-number">0</span>
+    <span class="stat-label">Active Competitors</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="section-label">Core Solutions</div>
+    <h2 class="section-title">What We<br><span style="color:var(--neon-cyan)">Control</span></h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">[SYN]</span>
+        <div class="service-name">SynapseLink Neural OS</div>
+        <p class="service-desc">Mandatory cognitive integration for all registered citizens. Seamless productivity enhancement. Compliance monitoring included at no additional cost.</p>
+        <span class="service-tag">Mandatory // Tier-1</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">[ORB]</span>
+        <div class="service-name">Orbital Surveillance Array</div>
+        <p class="service-desc">Complete atmospheric monitoring with real-time behavioral prediction. 340,000 satellite nodes. No blind spots. No exceptions.</p>
+        <span class="service-tag">Gov Certified</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">[BIO]</span>
+        <div class="service-name">BioGen Optimization</div>
+        <p class="service-desc">Corporate-approved genetic modifications to maximize worker output. Loyalty sequences available as optional upgrade. Patent-protected humanity.</p>
+        <span class="service-tag">Phase 4 Active</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">[FIN]</span>
+        <div class="service-name">NexaCredit Ecosystem</div>
+        <p class="service-desc">The only currency that matters. Social compliance scores determine your purchasing tier. Dissent is financially inadvisable.</p>
+        <span class="service-tag">Universal Standard</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">[ARM]</span>
+        <div class="service-name">Autonomous Security Division</div>
+        <p class="service-desc">AI-powered enforcement units available for corporate territory protection. Response time: 8 seconds. Jurisdiction: global.</p>
+        <span class="service-tag">Contract Required</span>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">[MEM]</span>
+        <div class="service-name">Mnemonic Cloud Storage</div>
+        <p class="service-desc">Offload personal memories to our secure servers. Free up cognitive bandwidth. Terms: NexaCorp retains access rights to all archived data. Permanently.</p>
+        <span class="service-tag">New // Beta</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-inner">
+    <div class="manifesto-text">
+      <div class="section-label">Corporate Manifesto</div>
+      <h2 class="section-title" style="font-size:1.8rem;margin-bottom:2rem;">The Future<br>is <span style="color:var(--neon-pink)">Non-Optional</span></h2>
+      <blockquote>
+        "We do not ask for permission. We do not wait for consensus. <strong>We decide what tomorrow looks like</strong>, and we build it whether you are ready or not."
+        <br><br>
+        "Sovereignty is an <strong>inefficiency we corrected.</strong>"
+      </blockquote>
+      <p style="font-size:0.88rem;color:rgba(200,220,240,0.4);line-height:1.8;font-weight:300;">— Director-General Kira Voss, NexaCorp Annual Address 2087</p>
+    </div>
+    <div class="manifesto-visual">
+      <div class="terminal">
+        <div class="t-dim">// nexacorp.sys — classified access</div>
+        <div><span class="t-green">root@nexacorp</span><span class="t-dim">:</span><span class="t-cyan">~</span><span class="t-dim">$</span> <span style="color:#fff">init world_domination.sh</span></div>
+        <div class="t-dim">Establishing global uplink...</div>
+        <div><span class="t-yellow">[WARN]</span> <span class="t-dim">Democracy modules: deprecated</span></div>
+        <div><span class="t-green">[OK]</span> <span class="t-dim">Neural compliance: loaded</span></div>
+        <div><span class="t-green">[OK]</span> <span class="t-dim">Surveillance grid: online</span></div>
+        <div><span class="t-green">[OK]</span> <span class="t-dim">Market monopoly: enforced</span></div>
+        <div><span class="t-pink">[NXC]</span> <span class="t-dim">Competitor assets: seized</span></div>
+        <div><span class="t-green">[OK]</span> <span class="t-dim">Resistance probability: 0.003%</span></div>
+        <div class="t-dim">————————————————</div>
+        <div><span class="t-cyan">STATUS:</span> <span style="color:#fff">WORLD OPERATIONAL</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIVISIONS -->
+<section id="divisions">
+  <div class="section-inner">
+    <div class="section-label">Organizational Structure</div>
+    <h2 class="section-title">Our <span style="color:var(--neon-cyan)">Divisions</span></h2>
+    <div class="divisions-grid">
+      <div class="division-card">
+        <div class="corner"></div>
+        <div class="corner corner-bl"></div>
+        <div class="division-num">DIV-001</div>
+        <div class="division-name">Cognitive Systems Group</div>
+        <p class="division-desc">Responsible for neural interface development, consciousness architecture, and mandated thought optimization protocols across the civilian network.</p>
+        <span class="division-status">Fully Operational</span>
+      </div>
+      <div class="division-card">
+        <div class="corner"></div>
+        <div class="corner corner-bl"></div>
+        <div class="division-num">DIV-002</div>
+        <div class="division-name">Planetary Resource Command</div>
+        <p class="division-desc">Managing extraction operations across 7 continents, 2 offshore platforms, and 3 asteroid mining installations. Environmental audits: suspended.</p>
+        <span class="division-status">Fully Operational</span>
+      </div>
+      <div class="division-card">
+        <div class="corner"></div>
+        <div class="corner corner-bl"></div>
+        <div class="division-num">DIV-003</div>
+        <div class="division-name">Social Compliance Bureau</div>
+        <p class="division-desc">Maintaining behavioral equilibrium through real-time media curation, education system integration, and targeted narrative delivery at scale.</p>
+        <span class="division-status">Fully Operational</span>
+      </div>
+      <div class="division-card">
+        <div class="corner"></div>
+        <div class="corner corner-bl"></div>
+        <div class="division-num">DIV-004</div>
+        <div class="division-name">Classified Operations [REDACTED]</div>
+        <p class="division-desc">Access requires Level-Sigma clearance. Operations ongoing. Personnel assignment is permanent. Questions about this division are logged.</p>
+        <span class="division-status" style="color: var(--neon-pink); text-shadow: none;">
+          <span style="background: var(--neon-pink); animation: none; box-shadow: none;"></span>
+          Classified
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECRUITMENT -->
+<section class="recruitment" id="careers">
+  <div class="section-inner">
+    <div class="section-label" style="justify-content:center;">Human Capital Acquisition</div>
+    <h2 class="section-title">Join Us.<br><span style="color:var(--neon-pink)">You Have No Choice.</span></h2>
+    <p>NexaCorp employs 4.2 million individuals across 190 territories. Benefits include: shelter allocation, caloric credits, supervised recreation hours, and the satisfaction of being on the right side.</p>
+    <div class="form-row">
+      <input class="form-input" type="email" placeholder="ENTER_CITIZEN_ID@nexacorp.gov">
+      <button class="btn-primary" style="white-space:nowrap">Submit Self</button>
+    </div>
+    <p style="font-size:0.65rem;color:rgba(200,220,240,0.2);margin-top:1rem;font-family:'Share Tech Mono',monospace;letter-spacing:0.05em;">By submitting, you waive all future rights to non-compliance. Your data belongs to NexaCorp. You belong to NexaCorp.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NEXACORP</div>
+  <ul class="footer-links">
+    <li><a href="#">Compliance</a></li>
+    <li><a href="#">Data Rights (N/A)</a></li>
+    <li><a href="#">Reporting Dissent</a></li>
+    <li><a href="#">Tribunal</a></li>
+  </ul>
+  <div class="footer-copy">
+    © 2087 NexaCorp Global Industries. All rights reserved.<br>
+    All citizens reserved. All futures reserved.
+  </div>
+</footer>
+
+<!-- ============================================================
+     LOGIN MODAL
+     ============================================================ -->
+<div id="login-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+  <div id="login-box" style="width:min(460px,92vw);background:#000;border:1px solid rgba(0,245,255,0.25);position:relative;overflow:hidden;">
+
+    <!-- top bar -->
+    <div style="background:rgba(0,245,255,0.07);border-bottom:1px solid rgba(0,245,255,0.15);padding:0.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(0,245,255,0.6);letter-spacing:0.2em;">NEXACORP // SECURE ACCESS TERMINAL</span>
+      <button onclick="closeLogin()" style="background:none;border:none;color:rgba(255,0,110,0.6);font-family:'Share Tech Mono',monospace;font-size:0.75rem;cursor:crosshair;letter-spacing:0.1em;transition:color 0.2s;" onmouseover="this.style.color='#ff006e'" onmouseout="this.style.color='rgba(255,0,110,0.6)'">[ ESC ]</button>
+    </div>
+
+    <!-- corner decorations -->
+    <div style="position:absolute;top:44px;left:0;width:12px;height:12px;border-top:2px solid var(--neon-cyan);border-left:2px solid var(--neon-cyan);"></div>
+    <div style="position:absolute;top:44px;right:0;width:12px;height:12px;border-top:2px solid var(--neon-cyan);border-right:2px solid var(--neon-cyan);"></div>
+    <div style="position:absolute;bottom:0;left:0;width:12px;height:12px;border-bottom:2px solid rgba(255,0,110,0.5);border-left:2px solid rgba(255,0,110,0.5);"></div>
+    <div style="position:absolute;bottom:0;right:0;width:12px;height:12px;border-bottom:2px solid rgba(255,0,110,0.5);border-right:2px solid rgba(255,0,110,0.5);"></div>
+
+    <!-- body -->
+    <div style="padding:2rem 2rem 1.5rem;">
+      <!-- logo -->
+      <div style="text-align:center;margin-bottom:1.8rem;">
+        <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.6rem;color:var(--neon-cyan);text-shadow:0 0 20px var(--neon-cyan),0 0 40px rgba(0,245,255,0.3);letter-spacing:0.2em;">NEXA<span style="color:var(--neon-pink);text-shadow:0 0 20px var(--neon-pink);">CORP</span></div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.3);letter-spacing:0.25em;margin-top:0.4rem;">EMPLOYEE PORTAL — CLEARANCE REQUIRED</div>
+      </div>
+
+      <!-- boot text -->
+      <div id="boot-lines" style="font-family:'Share Tech Mono',monospace;font-size:0.68rem;line-height:1.9;color:rgba(0,245,255,0.45);margin-bottom:1.5rem;min-height:80px;"></div>
+
+      <!-- fields -->
+      <div id="login-fields" style="display:none;">
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:0.4rem;">CITIZEN_ID</div>
+          <input id="login-user" type="text" autocomplete="off" style="width:100%;background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.2);color:#fff;font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;padding:0.75rem 1rem;outline:none;transition:border-color 0.3s;" placeholder="director@nexacorp.gov" onfocus="this.style.borderColor='rgba(0,245,255,0.6)'" onblur="this.style.borderColor='rgba(0,245,255,0.2)'">
+        </div>
+        <div style="margin-bottom:1.5rem;">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:0.4rem;">AUTHORIZATION_KEY</div>
+          <input id="login-pass" type="password" autocomplete="off" style="width:100%;background:rgba(0,245,255,0.04);border:1px solid rgba(0,245,255,0.2);color:#fff;font-family:'Share Tech Mono',monospace;font-size:0.8rem;letter-spacing:0.15em;padding:0.75rem 1rem;outline:none;transition:border-color 0.3s;" placeholder="••••••••••••" onfocus="this.style.borderColor='rgba(0,245,255,0.6)'" onblur="this.style.borderColor='rgba(0,245,255,0.2)'" onkeydown="if(event.key==='Enter')attemptLogin()">
+        </div>
+
+        <button onclick="attemptLogin()" id="login-btn" style="width:100%;background:var(--neon-cyan);border:none;color:#000;font-family:'Orbitron',monospace;font-weight:700;font-size:0.7rem;letter-spacing:0.2em;padding:1rem;cursor:crosshair;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:box-shadow 0.3s,background 0.3s;text-transform:uppercase;" onmouseover="this.style.boxShadow='0 0 30px var(--neon-cyan)'" onmouseout="this.style.boxShadow='none'">
+          Authenticate
+        </button>
+
+        <div id="login-error" style="display:none;margin-top:1rem;font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--neon-pink);text-align:center;letter-spacing:0.1em;text-shadow:0 0 10px rgba(255,0,110,0.5);"></div>
+
+        <div style="margin-top:1.2rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.18);text-align:center;line-height:1.7;letter-spacing:0.05em;">
+          All access attempts are logged, timestamped, and reported<br>to NexaCorp Central Intelligence. Unauthorized access triggers<br>immediate Tribunal proceedings.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     DASHBOARD PAGE
+     ============================================================ -->
+<div id="dashboard-page" style="display:none;position:fixed;inset:0;z-index:9998;background:var(--dark-bg);overflow-y:auto;">
+
+  <!-- scanlines on dashboard too -->
+  <div style="position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);pointer-events:none;z-index:9999;"></div>
+  <!-- grid -->
+  <div style="position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;"></div>
+
+  <!-- DASH NAV -->
+  <div style="position:sticky;top:0;z-index:100;background:rgba(2,4,8,0.95);border-bottom:1px solid rgba(0,245,255,0.2);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:0.9rem 2rem;">
+    <div style="display:flex;align-items:center;gap:2rem;">
+      <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;color:var(--neon-cyan);text-shadow:0 0 15px var(--neon-cyan);letter-spacing:0.15em;">NEXA<span style="color:var(--neon-pink);">CORP</span></div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.3);letter-spacing:0.2em;border-left:1px solid rgba(0,245,255,0.15);padding-left:1.5rem;">DIRECTOR PORTAL — LEVEL SIGMA</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--neon-green);box-shadow:0 0 8px var(--neon-green);animation:pulse 2s infinite;"></div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.4);letter-spacing:0.1em;">SECURE SESSION ACTIVE</span>
+      </div>
+      <button onclick="logout()" style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(255,0,110,0.5);background:none;border:1px solid rgba(255,0,110,0.2);padding:0.4rem 1rem;cursor:crosshair;letter-spacing:0.1em;transition:all 0.2s;" onmouseover="this.style.color='#ff006e';this.style.borderColor='#ff006e';this.style.boxShadow='0 0 10px rgba(255,0,110,0.3)'" onmouseout="this.style.color='rgba(255,0,110,0.5)';this.style.borderColor='rgba(255,0,110,0.2)';this.style.boxShadow='none'">TERMINATE SESSION</button>
+    </div>
+  </div>
+
+  <!-- DASH CONTENT -->
+  <div style="position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:2rem;">
+
+    <!-- Welcome -->
+    <div style="margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(0,245,255,0.1);">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--neon-pink);letter-spacing:0.3em;margin-bottom:0.4rem;">WELCOME BACK, DIRECTOR</div>
+      <h1 style="font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:0.05em;">Command Overview <span id="dash-date" style="font-size:0.9rem;color:rgba(200,220,240,0.3);font-weight:400;"></span></h1>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,245,255,0.08);border:1px solid rgba(0,245,255,0.08);margin-bottom:2rem;">
+      <div class="dkpi" style="background:#000;padding:1.5rem;position:relative;overflow:hidden;transition:background 0.3s;" onmouseover="this.style.background='rgba(0,245,255,0.04)'" onmouseout="this.style.background='#000'">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:0.6rem;">GLOBAL MARKET SHARE</div>
+        <div style="font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:var(--neon-cyan);text-shadow:0 0 15px rgba(0,245,255,0.4);" id="kpi1">99.4%</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:var(--neon-green);margin-top:0.4rem;">▲ +0.3% THIS CYCLE</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-cyan),transparent);"></div>
+      </div>
+      <div style="background:#000;padding:1.5rem;position:relative;overflow:hidden;transition:background 0.3s;" onmouseover="this.style.background='rgba(0,245,255,0.04)'" onmouseout="this.style.background='#000'">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:0.6rem;">REVENUE (BILLIONS ₦)</div>
+        <div style="font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:var(--neon-cyan);text-shadow:0 0 15px rgba(0,245,255,0.4);" id="kpi2">214.7</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:var(--neon-green);margin-top:0.4rem;">▲ +22B SINCE LAST REPORT</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-cyan),transparent);"></div>
+      </div>
+      <div style="background:#000;padding:1.5rem;position:relative;overflow:hidden;transition:background 0.3s;" onmouseover="this.style.background='rgba(0,245,255,0.04)'" onmouseout="this.style.background='#000'">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:0.6rem;">THREAT INCIDENTS</div>
+        <div style="font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:var(--neon-pink);text-shadow:0 0 15px rgba(255,0,110,0.4);">3</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:var(--neon-pink);margin-top:0.4rem;">▼ 2 RESOLVED // 1 ACTIVE</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-pink),transparent);"></div>
+      </div>
+      <div style="background:#000;padding:1.5rem;position:relative;overflow:hidden;transition:background 0.3s;" onmouseover="this.style.background='rgba(0,245,255,0.04)'" onmouseout="this.style.background='#000'">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:0.6rem;">CITIZENS MONITORED</div>
+        <div style="font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:var(--neon-cyan);text-shadow:0 0 15px rgba(0,245,255,0.4);" id="kpi4">847M</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:var(--neon-green);margin-top:0.4rem;">▲ +2.1M NEW ENROLLMENTS</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon-cyan),transparent);"></div>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;margin-bottom:1.5rem;">
+
+      <!-- SURVEILLANCE MAP -->
+      <div style="background:#000;border:1px solid rgba(0,245,255,0.12);padding:1.5rem;position:relative;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;">
+          <span>GLOBAL SURVEILLANCE COVERAGE</span>
+          <span style="color:var(--neon-green);">● LIVE</span>
+        </div>
+        <!-- SVG world map dots -->
+        <div style="position:relative;background:rgba(0,245,255,0.02);border:1px solid rgba(0,245,255,0.06);overflow:hidden;">
+          <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+            <!-- simplified continent outlines -->
+            <!-- North America -->
+            <path d="M95,70 L160,65 L175,80 L190,90 L185,120 L170,150 L155,165 L140,155 L125,140 L110,120 L90,100 Z" fill="rgba(0,245,255,0.06)" stroke="rgba(0,245,255,0.25)" stroke-width="0.8"/>
+            <!-- South America -->
+            <path d="M155,185 L185,180 L195,200 L192,230 L180,265 L162,280 L148,265 L142,240 L145,210 Z" fill="rgba(0,245,255,0.06)" stroke="rgba(0,245,255,0.25)" stroke-width="0.8"/>
+            <!-- Europe -->
+            <path d="M295,55 L340,50 L355,65 L350,85 L330,95 L310,90 L295,80 Z" fill="rgba(0,245,255,0.06)" stroke="rgba(0,245,255,0.25)" stroke-width="0.8"/>
+            <!-- Africa -->
+            <path d="M295,110 L340,105 L360,130 L355,175 L340,210 L315,225 L295,210 L280,175 L278,145 L285,120 Z" fill="rgba(0,245,255,0.06)" stroke="rgba(0,245,255,0.25)" stroke-width="0.8"/>
+            <!-- Asia -->
+            <path d="M370,50 L490,45 L530,70 L535,110 L510,135 L470,140 L430,130 L395,115 L370,95 Z" fill="rgba(0,245,255,0.06)" stroke="rgba(0,245,255,0.25)" stroke-width="0.8"/>
+            <!-- Australia -->
+            <path d="M480,195 L530,190 L545,215 L535,240 L505,250 L480,235 L472,215 Z" fill="rgba(0,245,255,0.06)" stroke="rgba(0,245,255,0.25)" stroke-width="0.8"/>
+
+            <!-- Radar sweep circle -->
+            <circle cx="350" cy="160" r="120" fill="none" stroke="rgba(0,245,255,0.04)" stroke-width="40"/>
+            <circle cx="350" cy="160" r="80" fill="none" stroke="rgba(0,245,255,0.06)" stroke-width="1" stroke-dasharray="4,4"/>
+            <circle cx="350" cy="160" r="140" fill="none" stroke="rgba(0,245,255,0.06)" stroke-width="1" stroke-dasharray="4,4"/>
+
+            <!-- Surveillance nodes -->
+            <g id="nodes">
+              <circle cx="135" cy="110" r="3" fill="var(--neon-cyan)" opacity="0.9"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.1s" repeatCount="indefinite"/></circle>
+              <circle cx="165" cy="220" r="3" fill="var(--neon-cyan)" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.8s" repeatCount="indefinite"/></circle>
+              <circle cx="315" cy="70" r="3" fill="var(--neon-cyan)" opacity="0.9"><animate attributeName="opacity" values="0.9;0.4;0.9" dur="2.4s" repeatCount="indefinite"/></circle>
+              <circle cx="315" cy="165" r="3" fill="var(--neon-cyan)" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.6s" repeatCount="indefinite"/></circle>
+              <circle cx="445" cy="90" r="3" fill="var(--neon-cyan)" opacity="0.9"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.2s" repeatCount="indefinite"/></circle>
+              <circle cx="500" cy="215" r="3" fill="var(--neon-cyan)" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="3s" repeatCount="indefinite"/></circle>
+              <!-- threat node -->
+              <circle cx="390" cy="120" r="4" fill="var(--neon-pink)" opacity="0.9"><animate attributeName="r" values="4;7;4" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0.5;0.9" dur="1.5s" repeatCount="indefinite"/></circle>
+              <circle cx="390" cy="120" r="12" fill="none" stroke="rgba(255,0,110,0.3)" stroke-width="1"><animate attributeName="r" values="8;18;8" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="1.5s" repeatCount="indefinite"/></circle>
+            </g>
+
+            <!-- connection lines -->
+            <line x1="135" y1="110" x2="315" y2="70" stroke="rgba(0,245,255,0.12)" stroke-width="0.5"/>
+            <line x1="315" y1="70" x2="445" y2="90" stroke="rgba(0,245,255,0.12)" stroke-width="0.5"/>
+            <line x1="315" y1="165" x2="390" y2="120" stroke="rgba(255,0,110,0.2)" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <line x1="445" y1="90" x2="500" y2="215" stroke="rgba(0,245,255,0.12)" stroke-width="0.5"/>
+
+            <text x="10" y="315" font-family="Share Tech Mono" font-size="9" fill="rgba(0,245,255,0.25)" letter-spacing="2">NXC-SURVEILLANCE-GRID v4.7 // 340,000 ACTIVE NODES</text>
+          </svg>
+        </div>
+        <div style="display:flex;gap:1.5rem;margin-top:0.8rem;">
+          <div style="display:flex;align-items:center;gap:0.4rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.35);">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--neon-cyan);"></div>ACTIVE NODE
+          </div>
+          <div style="display:flex;align-items:center;gap:0.4rem;font-family:'Share Tech Mono',monospace;font-size:0.58rem;color:rgba(200,220,240,0.35);">
+            <div style="width:6px;height:6px;border-radius:50%;background:var(--neon-pink);"></div>THREAT DETECTED
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITY FEED -->
+      <div style="background:#000;border:1px solid rgba(0,245,255,0.12);padding:1.5rem;display:flex;flex-direction:column;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:1rem;display:flex;justify-content:space-between;">
+          <span>INCIDENT LOG</span>
+          <span style="color:var(--neon-pink);">1 ACTIVE</span>
+        </div>
+        <div style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:0.6rem;" id="incident-log">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;">
+
+      <!-- Division Status -->
+      <div style="background:#000;border:1px solid rgba(0,245,255,0.12);padding:1.5rem;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:1rem;">DIVISION STATUS</div>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(200,220,240,0.6);">COGNITIVE SYS.</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:80px;height:3px;background:rgba(0,245,255,0.1);position:relative;"><div style="position:absolute;inset:0;right:0%;background:var(--neon-cyan);"></div></div>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--neon-green);">100%</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(200,220,240,0.6);">RESOURCE CMD.</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:80px;height:3px;background:rgba(0,245,255,0.1);position:relative;"><div style="position:absolute;inset:0;right:10%;background:var(--neon-cyan);"></div></div>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--neon-green);">90%</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(200,220,240,0.6);">SOCIAL COMP.</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:80px;height:3px;background:rgba(0,245,255,0.1);position:relative;"><div style="position:absolute;inset:0;right:3%;background:var(--neon-cyan);"></div></div>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--neon-green);">97%</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(200,220,240,0.6);">[CLASSIFIED]</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:80px;height:3px;background:rgba(255,0,110,0.1);position:relative;"><div style="position:absolute;inset:0;background:var(--neon-pink);"></div></div>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--neon-pink);">???</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:rgba(200,220,240,0.6);">AUTONOMOUS SEC.</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <div style="width:80px;height:3px;background:rgba(0,245,255,0.1);position:relative;"><div style="position:absolute;inset:0;right:5%;background:var(--neon-cyan);"></div></div>
+              <span style="font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:var(--neon-green);">95%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neural Compliance Chart -->
+      <div style="background:#000;border:1px solid rgba(0,245,255,0.12);padding:1.5rem;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:1rem;">NEURAL COMPLIANCE BY SECTOR</div>
+        <svg viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+          <defs>
+            <linearGradient id="bar-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00f5ff" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#00f5ff" stop-opacity="0.2"/>
+            </linearGradient>
+          </defs>
+          <!-- bars -->
+          <rect x="10" y="25" width="22" height="85" fill="url(#bar-grad)" rx="1"/>
+          <rect x="42" y="35" width="22" height="75" fill="url(#bar-grad)" rx="1" opacity="0.85"/>
+          <rect x="74" y="15" width="22" height="95" fill="url(#bar-grad)" rx="1"/>
+          <rect x="106" y="30" width="22" height="80" fill="url(#bar-grad)" rx="1" opacity="0.9"/>
+          <rect x="138" y="45" width="22" height="65" fill="url(#bar-grad)" rx="1" opacity="0.75"/>
+          <rect x="170" y="20" width="22" height="90" fill="url(#bar-grad)" rx="1" opacity="0.95"/>
+          <!-- baseline -->
+          <line x1="5" y1="111" x2="195" y2="111" stroke="rgba(0,245,255,0.15)" stroke-width="0.5"/>
+          <!-- labels -->
+          <text x="21" y="118" font-family="Share Tech Mono" font-size="5.5" fill="rgba(200,220,240,0.3)" text-anchor="middle">CORP</text>
+          <text x="53" y="118" font-family="Share Tech Mono" font-size="5.5" fill="rgba(200,220,240,0.3)" text-anchor="middle">MED</text>
+          <text x="85" y="118" font-family="Share Tech Mono" font-size="5.5" fill="rgba(200,220,240,0.3)" text-anchor="middle">EDU</text>
+          <text x="117" y="118" font-family="Share Tech Mono" font-size="5.5" fill="rgba(200,220,240,0.3)" text-anchor="middle">MIL</text>
+          <text x="149" y="118" font-family="Share Tech Mono" font-size="5.5" fill="rgba(200,220,240,0.3)" text-anchor="middle">CIVIL</text>
+          <text x="181" y="118" font-family="Share Tech Mono" font-size="5.5" fill="rgba(200,220,240,0.3)" text-anchor="middle">GOV</text>
+          <!-- % labels -->
+          <text x="21" y="22" font-family="Share Tech Mono" font-size="5" fill="rgba(0,245,255,0.7)" text-anchor="middle">98%</text>
+          <text x="53" y="32" font-family="Share Tech Mono" font-size="5" fill="rgba(0,245,255,0.7)" text-anchor="middle">88%</text>
+          <text x="85" y="12" font-family="Share Tech Mono" font-size="5" fill="rgba(0,245,255,0.7)" text-anchor="middle">99%</text>
+          <text x="117" y="27" font-family="Share Tech Mono" font-size="5" fill="rgba(0,245,255,0.7)" text-anchor="middle">94%</text>
+          <text x="149" y="42" font-family="Share Tech Mono" font-size="5" fill="rgba(255,0,110,0.8)" text-anchor="middle">76%</text>
+          <text x="181" y="17" font-family="Share Tech Mono" font-size="5" fill="rgba(0,245,255,0.7)" text-anchor="middle">97%</text>
+        </svg>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:rgba(255,0,110,0.6);margin-top:0.5rem;">⚠ CIVIL SECTOR BELOW THRESHOLD — REMEDIATION ACTIVE</div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="background:#000;border:1px solid rgba(0,245,255,0.12);padding:1.5rem;">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:rgba(200,220,240,0.35);letter-spacing:0.2em;margin-bottom:1rem;">DIRECTOR ACTIONS</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;">
+          <button onclick="dashAction(this,'Acquisition protocol NXC-9941 initiated.')" style="background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.15);color:rgba(200,220,240,0.7);font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.7rem 1rem;cursor:crosshair;text-align:left;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);" onmouseover="this.style.background='rgba(0,245,255,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(0,245,255,0.05)';this.style.color='rgba(200,220,240,0.7)'">▶ INITIATE ACQUISITION</button>
+          <button onclick="dashAction(this,'Threat response unit deployed. ETA: 8 seconds.')" style="background:rgba(255,0,110,0.05);border:1px solid rgba(255,0,110,0.15);color:rgba(200,220,240,0.7);font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.7rem 1rem;cursor:crosshair;text-align:left;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);" onmouseover="this.style.background='rgba(255,0,110,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,0,110,0.05)';this.style.color='rgba(200,220,240,0.7)'">▶ DEPLOY RESPONSE UNIT</button>
+          <button onclick="dashAction(this,'Compliance broadcast transmitted to 847M citizens.')" style="background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.15);color:rgba(200,220,240,0.7);font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.7rem 1rem;cursor:crosshair;text-align:left;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);" onmouseover="this.style.background='rgba(0,245,255,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(0,245,255,0.05)';this.style.color='rgba(200,220,240,0.7)'">▶ BROADCAST COMPLIANCE MSG</button>
+          <button onclick="dashAction(this,'Memory archive purge scheduled for 0300.')" style="background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.15);color:rgba(200,220,240,0.7);font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.7rem 1rem;cursor:crosshair;text-align:left;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);" onmouseover="this.style.background='rgba(0,245,255,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(0,245,255,0.05)';this.style.color='rgba(200,220,240,0.7)'">▶ PURGE MEMORY ARCHIVES</button>
+          <button onclick="dashAction(this,'Disinformation package NXC-PR-44 activated.')" style="background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.15);color:rgba(200,220,240,0.7);font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:0.7rem 1rem;cursor:crosshair;text-align:left;transition:all 0.2s;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);" onmouseover="this.style.background='rgba(0,245,255,0.1)';this.style.color='#fff'" onmouseout="this.style.background='rgba(0,245,255,0.05)';this.style.color='rgba(200,220,240,0.7)'">▶ ACTIVATE MEDIA CONTROL</button>
+        </div>
+        <div id="action-feedback" style="display:none;margin-top:0.8rem;font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--neon-green);letter-spacing:0.05em;border-top:1px solid rgba(0,245,255,0.1);padding-top:0.8rem;"></div>
+      </div>
+    </div>
+
+  </div><!-- /dash content -->
+</div><!-- /dashboard-page -->
+
+<style>
+  #login-modal { display: none; }
+  #login-modal.open { display: flex !important; }
+  #login-box { animation: modal-in 0.35s cubic-bezier(0.2,0,0,1); }
+  @keyframes modal-in { from { opacity:0; transform:translateY(-20px) scale(0.97); } to { opacity:1; transform:none; } }
+  #dashboard-page.open { display: block !important; animation: dash-in 0.5s ease; }
+  @keyframes dash-in { from { opacity:0; } to { opacity:1; } }
+  #login-fields { animation: fields-in 0.3s ease; }
+  @keyframes fields-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+  .incident-item { font-family:'Share Tech Mono',monospace; font-size:0.6rem; line-height:1.6; padding:0.6rem; background:rgba(0,245,255,0.02); border-left:2px solid rgba(0,245,255,0.2); }
+  .incident-item.threat { border-left-color:var(--neon-pink); background:rgba(255,0,110,0.04); }
+</style>
+
+<script>
+  // ── SMOOTH SCROLL ──────────────────────────────────────────
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // ── LOGIN MODAL OPEN/CLOSE ─────────────────────────────────
+  document.querySelector('.nav-cta').addEventListener('click', openLogin);
+
+  function openLogin() {
+    const modal = document.getElementById('login-modal');
+    modal.classList.add('open');
+    document.getElementById('login-fields').style.display = 'none';
+    document.getElementById('login-error').style.display = 'none';
+    document.getElementById('boot-lines').innerHTML = '';
+    runBootSequence();
+  }
+
+  function closeLogin() {
+    document.getElementById('login-modal').classList.remove('open');
+  }
+
+  document.getElementById('login-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeLogin();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLogin();
+  });
+
+  // ── BOOT SEQUENCE ──────────────────────────────────────────
+  const bootMessages = [
+    { text: '> Establishing encrypted uplink...', color: 'rgba(0,245,255,0.5)', delay: 0 },
+    { text: '> NexaCorp Secure Terminal v9.2.1', color: 'rgba(200,220,240,0.4)', delay: 300 },
+    { text: '> Verifying biometric signature...', color: 'rgba(0,245,255,0.5)', delay: 650 },
+    { text: '> <span style="color:var(--neon-yellow)">⚠ VPN LAYER DETECTED — LOGGING</span>', color: '', delay: 900 },
+    { text: '> Identity matrix loaded.', color: 'rgba(0,245,255,0.5)', delay: 1200 },
+    { text: '> <span style="color:var(--neon-green)">■ CONNECTION SECURE</span>', color: '', delay: 1550 },
+  ];
+
+  function runBootSequence() {
+    const container = document.getElementById('boot-lines');
+    bootMessages.forEach(({ text, color, delay }) => {
+      setTimeout(() => {
+        const line = document.createElement('div');
+        line.innerHTML = text;
+        if (color) line.style.color = color;
+        container.appendChild(line);
+      }, delay);
+    });
+    setTimeout(() => {
+      document.getElementById('login-fields').style.display = 'block';
+      setTimeout(() => document.getElementById('login-user').focus(), 50);
+    }, 1900);
+  }
+
+  // ── AUTH LOGIC ─────────────────────────────────────────────
+  // Password is "omnis" — latin for "all" (fitting for a corp that owns everything)
+  const CORRECT_USER = 'director@nexacorp.gov';
+  const CORRECT_PASS = 'omnis';
+
+  const wrongMessages = [
+    '⚠ ACCESS DENIED. INCIDENT LOGGED.',
+    '⚠ INVALID CREDENTIALS. TRIBUNAL NOTIFIED.',
+    '⚠ AUTHENTICATION FAILED. STAY WHERE YOU ARE.',
+    '⚠ WRONG KEY. ARREST WARRANT GENERATED.',
+  ];
+  let wrongCount = 0;
+
+  function attemptLogin() {
+    const user = document.getElementById('login-user').value.trim().toLowerCase();
+    const pass = document.getElementById('login-pass').value.trim().toLowerCase();
+    const btn  = document.getElementById('login-btn');
+    const err  = document.getElementById('login-error');
+
+    btn.textContent = 'Verifying...';
+    btn.style.background = 'rgba(0,245,255,0.4)';
+
+    setTimeout(() => {
+      if (pass === CORRECT_PASS) {
+        btn.textContent = '■ ACCESS GRANTED';
+        btn.style.background = 'var(--neon-green)';
+        err.style.display = 'none';
+        setTimeout(() => {
+          closeLogin();
+          launchDashboard();
+        }, 700);
+      } else {
+        btn.textContent = 'Authenticate';
+        btn.style.background = 'var(--neon-cyan)';
+        err.textContent = wrongMessages[wrongCount % wrongMessages.length];
+        err.style.display = 'block';
+        wrongCount++;
+        // shake the box
+        const box = document.getElementById('login-box');
+        box.style.animation = 'none';
+        box.offsetHeight;
+        box.style.animation = 'shake 0.4s ease';
+      }
+    }, 800);
+  }
+
+  // shake keyframes
+  const shakeStyle = document.createElement('style');
+  shakeStyle.textContent = '@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }';
+  document.head.appendChild(shakeStyle);
+
+  // ── DASHBOARD ──────────────────────────────────────────────
+  function launchDashboard() {
+    document.getElementById('dashboard-page').classList.add('open');
+    document.getElementById('dash-date').textContent = '// ' + new Date().toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    populateIncidentLog();
+  }
+
+  function logout() {
+    document.getElementById('dashboard-page').classList.remove('open');
+  }
+
+  const incidents = [
+    { time:'03:41', level:'CRITICAL', msg:'Resistance cell detected — Sector 7G', threat:true },
+    { time:'04:12', level:'WARNING', msg:'Neural compliance drop in CIVIL sector', threat:false },
+    { time:'05:30', level:'INFO', msg:'Acquisition NXC-9938 finalized', threat:false },
+    { time:'06:01', level:'CRITICAL', msg:'Unauthorized memory access attempt', threat:true },
+    { time:'07:15', level:'INFO', msg:'SynapseLink v4.1 deployed to 12M users', threat:false },
+    { time:'08:03', level:'WARNING', msg:'Competitor detected — neutralization pending', threat:true },
+    { time:'08:44', level:'INFO', msg:'Revenue index updated: ₦214.7B', threat:false },
+    { time:'09:20', level:'INFO', msg:'Orbital array sector sweep complete', threat:false },
+  ];
+
+  function populateIncidentLog() {
+    const log = document.getElementById('incident-log');
+    log.innerHTML = '';
+    [...incidents].reverse().forEach(inc => {
+      const el = document.createElement('div');
+      el.className = 'incident-item' + (inc.threat ? ' threat' : '');
+      const col = inc.level === 'CRITICAL' ? 'var(--neon-pink)' : inc.level === 'WARNING' ? 'var(--neon-yellow)' : 'rgba(0,245,255,0.5)';
+      el.innerHTML = `<span style="color:rgba(200,220,240,0.3)">${inc.time}</span> <span style="color:${col}">[${inc.level}]</span><br>${inc.msg}`;
+      log.appendChild(el);
+    });
+  }
+
+  function dashAction(btn, msg) {
+    const fb = document.getElementById('action-feedback');
+    fb.style.display = 'block';
+    fb.textContent = '> ' + msg;
+    fb.style.animation = 'none';
+    fb.offsetHeight;
+    fb.style.animation = 'fields-in 0.3s ease';
+
+    // add to incident log
+    const now = new Date();
+    const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    incidents.unshift({ time, level:'INFO', msg, threat:false });
+    populateIncidentLog();
+  }
+</script>
+</body>
+</html>
